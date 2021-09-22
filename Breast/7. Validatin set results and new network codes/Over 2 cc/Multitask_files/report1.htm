@@ -1,0 +1,554 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</HEAD>
+<BODY>
+<FONT FACE="Courier New" SIZE="2" COLOR="000000">double DeploymentCase( 
+
+<P>	double * Rnr) {
+
+<P>//==================================================================
+
+<P>// Boost trees module deployment code
+
+<P>// Data used in estimation: Over2cc
+
+<P>
+
+<P>// When calling this function, the values for predictors should
+
+<P>// be placed in the same sequential position of the input array,
+
+<P>// as they appeared in the input data file. Also, location or
+
+<P>// variable 0 (zero) is reserved for case numbers, so the routine
+
+<P>// expects the locations of variables to be referenced to 1,
+
+<P>// instead of the customary (in C) 0 (zero). For categorical
+
+<P>// predictors, use the same codes that were used in the data from
+
+<P>// which the respective model was estimated.
+
+<P>// See the Electronic Manual for additional information.
+
+<P>//==================================================================
+
+<P>////////////////////////////////////////////////////////////////////////////////
+
+<P>//STATISTICA Data Miner, Copyright 1984-2018 TIBCO Software Inc. All rights reserved.
+
+<P>//	Number of considered variables: 60
+
+<P>//	Dependent variable name=&quot;Molecular_Subtypes&quot;; location=23
+
+<P>//		 Category name=&quot;1&quot;; numerical value=1
+
+<P>//		 Category name=&quot;2&quot;; numerical value=2
+
+<P>//		 Category name=&quot;3&quot;; numerical value=3
+
+<P>//		 Category name=&quot;4&quot;; numerical value=4
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglrlmShortRunEmphasis&quot;; location=24
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglrlmShortRunEmphasis&quot;; location=25
+
+<P>//	Continuous predictor name=&quot;wavelet-HLLglcmIdmn&quot;; location=26
+
+<P>//	Continuous predictor name=&quot;wavelet-LHLglcmIdmn&quot;; location=27
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglcmImc2&quot;; location=28
+
+<P>//	Continuous predictor name=&quot;originalglcmIdmn&quot;; location=29
+
+<P>//	Continuous predictor name=&quot;wavelet-HLHglcmIdmn&quot;; location=30
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglcmIdmn&quot;; location=31
+
+<P>//	Continuous predictor name=&quot;originalglrlmShortRunEmphasis&quot;; location=32
+
+<P>//	Continuous predictor name=&quot;wavelet-HHHglcmIdmn&quot;; location=33
+
+<P>//	Continuous predictor name=&quot;wavelet-LHHglcmIdmn&quot;; location=34
+
+<P>//	Continuous predictor name=&quot;wavelet-HHLglcmIdmn&quot;; location=35
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglcmImc2&quot;; location=36
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglcmIdmn&quot;; location=37
+
+<P>//	Continuous predictor name=&quot;wavelet-HHLglcmIdn&quot;; location=38
+
+<P>//	Continuous predictor name=&quot;wavelet-LHHglrlmShortRunEmphasis&quot;; location=39
+
+<P>//	Continuous predictor name=&quot;wavelet-HHHglcmIdn&quot;; location=40
+
+<P>//	Continuous predictor name=&quot;wavelet-LHLglrlmShortRunEmphasis&quot;; location=41
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglrlmLongRunEmphasis&quot;; location=42
+
+<P>//	Continuous predictor name=&quot;wavelet-HLHglrlmShortRunEmphasis&quot;; location=43
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglszmSmallAreaEmphasis&quot;; location=44
+
+<P>//	Continuous predictor name=&quot;originalglcmImc2&quot;; location=45
+
+<P>//	Continuous predictor name=&quot;wavelet-LHLgldmDependenceEntropy&quot;; location=46
+
+<P>//	Continuous predictor name=&quot;wavelet-LHHgldmDependenceEntropy&quot;; location=47
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglszmZoneEntropy&quot;; location=48
+
+<P>//	Continuous predictor name=&quot;wavelet-HLLgldmDependenceEntropy&quot;; location=49
+
+<P>//	Continuous predictor name=&quot;wavelet-HHLgldmDependenceEntropy&quot;; location=50
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglrlmRunEntropy&quot;; location=51
+
+<P>//	Continuous predictor name=&quot;wavelet-HLHgldmDependenceEntropy&quot;; location=52
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglszmZoneEntropy&quot;; location=53
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglrlmRunEntropy&quot;; location=54
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglrlmLongRunEmphasis&quot;; location=55
+
+<P>//	Continuous predictor name=&quot;wavelet-LHLglszmZoneEntropy&quot;; location=56
+
+<P>//	Continuous predictor name=&quot;originalglszmSmallAreaEmphasis&quot;; location=57
+
+<P>//	Continuous predictor name=&quot;originalglrlmRunEntropy&quot;; location=58
+
+<P>//	Continuous predictor name=&quot;wavelet-LHHglszmZoneEntropy&quot;; location=59
+
+<P>//	Continuous predictor name=&quot;wavelet-HHHglrlmShortRunEmphasis&quot;; location=60
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglcmSumEntropy&quot;; location=61
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglcmDifferenceEntropy&quot;; location=62
+
+<P>//	Continuous predictor name=&quot;wavelet-HHHgldmDependenceEntropy&quot;; location=63
+
+<P>//	Continuous predictor name=&quot;wavelet-LHLglrlmRunEntropy&quot;; location=64
+
+<P>//	Continuous predictor name=&quot;wavelet-HLLglszmZoneEntropy&quot;; location=65
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglcmMCC&quot;; location=66
+
+<P>//	Continuous predictor name=&quot;wavelet-HLHglszmZoneEntropy&quot;; location=67
+
+<P>//	Continuous predictor name=&quot;originalglrlmLongRunEmphasis&quot;; location=68
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglcmSumEntropy&quot;; location=69
+
+<P>//	Continuous predictor name=&quot;wavelet-HHLglcmInverseVariance&quot;; location=70
+
+<P>//	Continuous predictor name=&quot;originalglcmDifferenceEntropy&quot;; location=71
+
+<P>//	Continuous predictor name=&quot;wavelet-LHHglrlmRunEntropy&quot;; location=72
+
+<P>//	Continuous predictor name=&quot;wavelet-LHHglszmSmallAreaEmphasis&quot;; location=73
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglcmMCC&quot;; location=74
+
+<P>//	Continuous predictor name=&quot;wavelet-HLLglrlmRunEntropy&quot;; location=75
+
+<P>//	Continuous predictor name=&quot;wavelet-LHLglszmSmallAreaEmphasis&quot;; location=76
+
+<P>//	Continuous predictor name=&quot;wavelet-LHHglcmJointEntropy&quot;; location=77
+
+<P>//	Continuous predictor name=&quot;wavelet-HLLglcmImc2&quot;; location=78
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglcmJointEntropy&quot;; location=79
+
+<P>//	Continuous predictor name=&quot;wavelet-HLHglszmSmallAreaEmphasis&quot;; location=80
+
+<P>//	Continuous predictor name=&quot;originalshapeSphericity&quot;; location=81
+
+<P>//	Continuous predictor name=&quot;wavelet-HLLglszmSmallAreaEmphasis&quot;; location=82
+
+<P>////////////////////////////////////////////////////////////////////////////////
+
+<P>
+
+<P>	double ret;
+
+<P>	double PredictProb[4];
+
+<P>	double MaxValue;
+
+<P>	double MaxVote;
+
+<P>	double den;
+
+<P>	int i;
+
+<P>				MaxValue=-1.0E30;
+
+<P>				den=0;
+
+<P>				i=0;
+
+<P>				PredictProb[0]=0;
+
+<P>	if(  Rnr[69] &lt;= 5.99011318137167e+000 ) {
+
+<P>		PredictProb[0] = -1.00000000000000e+000;
+
+<P>	} 
+
+<P>	else if(  Rnr[69] &gt; 5.99011318137167e+000 ) {
+
+<P>		PredictProb[0] = 1.45161290322581e+000;
+
+<P>	} 
+
+<P>	if(  Rnr[61] &lt;= 6.16349285083667e+000 ) {
+
+<P>		PredictProb[0] += 1.22668023755532e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[61] &gt; 6.16349285083667e+000 ) {
+
+<P>		PredictProb[0] += -8.02045774440911e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[65] &lt;= 5.26287011570833e+000 ) {
+
+<P>		PredictProb[0] += 2.94514049000056e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[65] &gt; 5.26287011570833e+000 ) {
+
+<P>		PredictProb[0] += -4.63066320719611e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[29] &lt;= 9.85939306963333e-001 ) {
+
+<P>		PredictProb[0] += -4.01012577991799e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[29] &gt; 9.85939306963333e-001 ) {
+
+<P>		PredictProb[0] += 1.72637346236228e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[44] &lt;= 9.20775969839000e-001 ) {
+
+<P>		PredictProb[0] += -7.60289631348037e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[44] &gt; 9.20775969839000e-001 ) {
+
+<P>		PredictProb[0] += 1.63309179683655e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[43] &lt;= 8.70587949518333e-001 ) {
+
+<P>		PredictProb[0] += 5.72197207904908e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[43] &gt; 8.70587949518333e-001 ) {
+
+<P>		PredictProb[0] += -2.27261322476927e-004;
+
+<P>	} 
+
+<P>				if (MaxValue &lt; PredictProb[0]) {
+
+<P>				MaxValue = PredictProb[0];
+
+<P>				MaxVote = 1.00000000000000e+000;
+
+<P>				}
+
+<P>				PredictProb[1]=0;
+
+<P>	if(  Rnr[67] &lt;= 6.45491857854333e+000 ) {
+
+<P>		PredictProb[1] = 5.88235294117647e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[67] &gt; 6.45491857854333e+000 ) {
+
+<P>		PredictProb[1] = 3.00000000000000e+000;
+
+<P>	} 
+
+<P>	if(  Rnr[25] &lt;= 9.87790264292667e-001 ) {
+
+<P>		PredictProb[1] += -3.85411350013535e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[25] &gt; 9.87790264292667e-001 ) {
+
+<P>		PredictProb[1] += 2.06713861153708e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[72] &lt;= 3.64610798705167e+000 ) {
+
+<P>		PredictProb[1] += 1.85223202590530e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[72] &gt; 3.64610798705167e+000 ) {
+
+<P>		PredictProb[1] += -1.46790865978965e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[56] &lt;= 5.59707845556833e+000 ) {
+
+<P>		PredictProb[1] += -5.87455200621058e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[56] &gt; 5.59707845556833e+000 ) {
+
+<P>		PredictProb[1] += 1.11619372460834e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[25] &lt;= 9.87664589024500e-001 ) {
+
+<P>		PredictProb[1] += -4.53929286154776e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[25] &gt; 9.87664589024500e-001 ) {
+
+<P>		PredictProb[1] += 1.03648617120841e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[72] &lt;= 3.64610798705167e+000 ) {
+
+<P>		PredictProb[1] += 2.28169229971114e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[72] &gt; 3.64610798705167e+000 ) {
+
+<P>		PredictProb[1] += -2.46530289697106e-002;
+
+<P>	} 
+
+<P>				if (MaxValue &lt; PredictProb[1]) {
+
+<P>				MaxValue = PredictProb[1];
+
+<P>				MaxVote = 2.00000000000000e+000;
+
+<P>				}
+
+<P>				PredictProb[2]=0;
+
+<P>	if(  Rnr[81] &lt;= 7.21453402140000e-001 ) {
+
+<P>		PredictProb[2] = -7.14285714285714e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[81] &gt; 7.21453402140000e-001 ) {
+
+<P>		PredictProb[2] = 1.66666666666667e+000;
+
+<P>	} 
+
+<P>	if(  Rnr[54] &lt;= 5.65852761380000e+000 ) {
+
+<P>		PredictProb[2] += -2.81661826701626e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[54] &gt; 5.65852761380000e+000 ) {
+
+<P>		PredictProb[2] += -1.59837907508798e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[24] &lt;= 9.74740632680333e-001 ) {
+
+<P>		PredictProb[2] += 1.05720210650444e+000;
+
+<P>	} 
+
+<P>	else if(  Rnr[24] &gt; 9.74740632680333e-001 ) {
+
+<P>		PredictProb[2] += -1.85586490351530e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[37] &lt;= 9.66854640974167e-001 ) {
+
+<P>		PredictProb[2] += -5.02335825816728e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[37] &gt; 9.66854640974167e-001 ) {
+
+<P>		PredictProb[2] += 2.85039381598434e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[81] &lt;= 7.33638787747000e-001 ) {
+
+<P>		PredictProb[2] += -1.83545528434018e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[81] &gt; 7.33638787747000e-001 ) {
+
+<P>		PredictProb[2] += -2.73436103631617e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[54] &lt;= 6.83072162778500e+000 ) {
+
+<P>		PredictProb[2] += -9.35122930010662e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[54] &gt; 6.83072162778500e+000 ) {
+
+<P>		PredictProb[2] += 3.22188664970168e-001;
+
+<P>	} 
+
+<P>				if (MaxValue &lt; PredictProb[2]) {
+
+<P>				MaxValue = PredictProb[2];
+
+<P>				MaxVote = 3.00000000000000e+000;
+
+<P>				}
+
+<P>				PredictProb[3]=0;
+
+<P>	if(  Rnr[48] &lt;= 7.32320041888167e+000 ) {
+
+<P>		PredictProb[3] = -7.07317073170732e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[48] &gt; 7.32320041888167e+000 ) {
+
+<P>		PredictProb[3] = 2.00000000000000e+000;
+
+<P>	} 
+
+<P>	if(  Rnr[46] &lt;= 6.73026486974667e+000 ) {
+
+<P>		PredictProb[3] += -6.56651075779866e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[46] &gt; 6.73026486974667e+000 ) {
+
+<P>		PredictProb[3] += 1.34075127773938e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[71] &lt;= 3.30604459569833e+000 ) {
+
+<P>		PredictProb[3] += 1.97776516851722e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[71] &gt; 3.30604459569833e+000 ) {
+
+<P>		PredictProb[3] += -6.89618136283870e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[63] &lt;= 4.80529381358167e+000 ) {
+
+<P>		PredictProb[3] += 3.42255957475389e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[63] &gt; 4.80529381358167e+000 ) {
+
+<P>		PredictProb[3] += -6.44928499871734e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[81] &lt;= 7.48466677167667e-001 ) {
+
+<P>		PredictProb[3] += -4.42092880061102e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[81] &gt; 7.48466677167667e-001 ) {
+
+<P>		PredictProb[3] += 5.28524725400941e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[31] &lt;= 9.52419726534167e-001 ) {
+
+<P>		PredictProb[3] += 7.38555725644547e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[31] &gt; 9.52419726534167e-001 ) {
+
+<P>		PredictProb[3] += -5.24672738245745e-002;
+
+<P>	} 
+
+<P>				if (MaxValue &lt; PredictProb[3]) {
+
+<P>				MaxValue = PredictProb[3];
+
+<P>				MaxVote = 4.00000000000000e+000;
+
+<P>				}
+
+<P>
+
+<P>	for(i=0; i&lt;4; i++){
+
+<P>		PredictProb[i]=exp(PredictProb[i]);
+
+<P>		den+=PredictProb[i];
+
+<P>	}
+
+<P>	for(i=0; i&lt;4 ;i++)
+
+<P>		PredictProb[i]/=den;
+
+<P>
+
+<P>				ret=MaxVote;
+
+<P>	return ret;
+
+<P>}
+
+<P>
+
+<P>
+
+<P>
+
+<P>
+
+<P>
+</BODY>
+</HTML>

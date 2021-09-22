@@ -1,0 +1,654 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</HEAD>
+<BODY>
+<FONT FACE="Courier New" SIZE="2" COLOR="000000">double DeploymentCase( 
+
+<P>	double * Rnr) {
+
+<P>//==================================================================
+
+<P>// Boost trees module deployment code
+
+<P>// Data used in estimation: AllCases in AllCases
+
+<P>
+
+<P>// When calling this function, the values for predictors should
+
+<P>// be placed in the same sequential position of the input array,
+
+<P>// as they appeared in the input data file. Also, location or
+
+<P>// variable 0 (zero) is reserved for case numbers, so the routine
+
+<P>// expects the locations of variables to be referenced to 1,
+
+<P>// instead of the customary (in C) 0 (zero). For categorical
+
+<P>// predictors, use the same codes that were used in the data from
+
+<P>// which the respective model was estimated.
+
+<P>// See the Electronic Manual for additional information.
+
+<P>//==================================================================
+
+<P>////////////////////////////////////////////////////////////////////////////////
+
+<P>//STATISTICA Data Miner, Copyright 1984-2018 TIBCO Software Inc. All rights reserved.
+
+<P>//	Number of considered variables: 38
+
+<P>//	Dependent variable name=&quot;Molecular_Subtypes&quot;; location=23
+
+<P>//		 Category name=&quot;1&quot;; numerical value=1
+
+<P>//		 Category name=&quot;2&quot;; numerical value=2
+
+<P>//		 Category name=&quot;3&quot;; numerical value=3
+
+<P>//		 Category name=&quot;4&quot;; numerical value=4
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglrlmShortRunEmphasis&quot;; location=24
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglrlmShortRunEmphasis&quot;; location=25
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglrlmRunPercentage&quot;; location=26
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglcmImc2&quot;; location=27
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglcmImc2&quot;; location=28
+
+<P>//	Continuous predictor name=&quot;wavelet-LHLglcmIdmn&quot;; location=29
+
+<P>//	Continuous predictor name=&quot;wavelet-HHHglcmIdmn&quot;; location=30
+
+<P>//	Continuous predictor name=&quot;wavelet-HLHglcmIdmn&quot;; location=31
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglcmIdmn&quot;; location=32
+
+<P>//	Continuous predictor name=&quot;wavelet-HHLglcmIdmn&quot;; location=33
+
+<P>//	Continuous predictor name=&quot;wavelet-LHHglcmIdmn&quot;; location=34
+
+<P>//	Continuous predictor name=&quot;wavelet-LHHglrlmShortRunEmphasis&quot;; location=35
+
+<P>//	Continuous predictor name=&quot;wavelet-LHLglrlmShortRunEmphasis&quot;; location=36
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglrlmLongRunEmphasis&quot;; location=37
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglcmIdmn&quot;; location=38
+
+<P>//	Continuous predictor name=&quot;wavelet-LHLglcmIdn&quot;; location=39
+
+<P>//	Continuous predictor name=&quot;wavelet-HHLglcmIdn&quot;; location=40
+
+<P>//	Continuous predictor name=&quot;wavelet-HHHglcmIdn&quot;; location=41
+
+<P>//	Continuous predictor name=&quot;wavelet-HLLglrlmShortRunEmphasis&quot;; location=42
+
+<P>//	Continuous predictor name=&quot;wavelet-HLHglrlmShortRunEmphasis&quot;; location=43
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglszmSmallAreaEmphasis&quot;; location=44
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglszmSmallAreaEmphasis&quot;; location=45
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglrlmLongRunEmphasis&quot;; location=46
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglcmMCC&quot;; location=47
+
+<P>//	Continuous predictor name=&quot;wavelet-HHHglrlmShortRunEmphasis&quot;; location=48
+
+<P>//	Continuous predictor name=&quot;wavelet-HHLglrlmShortRunEmphasis&quot;; location=49
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglcmMCC&quot;; location=50
+
+<P>//	Continuous predictor name=&quot;wavelet-LHLglrlmRunEntropy&quot;; location=51
+
+<P>//	Continuous predictor name=&quot;wavelet-LHHglrlmRunEntropy&quot;; location=52
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLfirstorderEntropy&quot;; location=53
+
+<P>//	Continuous predictor name=&quot;wavelet-LLLglrlmRunEntropy&quot;; location=54
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHglrlmRunEntropy&quot;; location=55
+
+<P>//	Continuous predictor name=&quot;wavelet-LLHfirstorderEntropy&quot;; location=56
+
+<P>//	Continuous predictor name=&quot;wavelet-LHHglszmSmallAreaEmphasis&quot;; location=57
+
+<P>//	Continuous predictor name=&quot;wavelet-HLHglcmImc2&quot;; location=58
+
+<P>//	Continuous predictor name=&quot;wavelet-LHLfirstorderEntropy&quot;; location=59
+
+<P>//	Continuous predictor name=&quot;wavelet-LHLgldmDependenceEntropy&quot;; location=60
+
+<P>////////////////////////////////////////////////////////////////////////////////
+
+<P>
+
+<P>	double ret;
+
+<P>	double PredictProb[4];
+
+<P>	double MaxValue;
+
+<P>	double MaxVote;
+
+<P>	double den;
+
+<P>	int i;
+
+<P>				MaxValue=-1.0E30;
+
+<P>				den=0;
+
+<P>				i=0;
+
+<P>				PredictProb[0]=0;
+
+<P>	if(  Rnr[42] &lt;= 9.85625671065500e-001 ) {
+
+<P>		PredictProb[0] = -2.00000000000000e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[42] &gt; 9.85625671065500e-001 ) {
+
+<P>		PredictProb[0] = 3.00000000000000e+000;
+
+<P>	} 
+
+<P>	if(  Rnr[46] &lt;= 1.04108214728500e+000 ) {
+
+<P>		PredictProb[0] += -4.18841095229655e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[46] &gt; 1.04108214728500e+000 ) {
+
+<P>		PredictProb[0] += 1.83448239367545e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[47] &lt;= 8.43284676817000e-001 ) {
+
+<P>		PredictProb[0] += 5.52644670921545e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[47] &gt; 8.43284676817000e-001 ) {
+
+<P>		PredictProb[0] += 1.26439629094280e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[30] &lt;= 9.84751390409333e-001 ) {
+
+<P>		PredictProb[0] += 8.49012406524464e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[30] &gt; 9.84751390409333e-001 ) {
+
+<P>		PredictProb[0] += -9.01928224970300e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[59] &lt;= 3.48288557784000e+000 ) {
+
+<P>		PredictProb[0] += 1.57079850983155e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[59] &gt; 3.48288557784000e+000 ) {
+
+<P>		PredictProb[0] += 8.30917441537123e-003;
+
+<P>	} 
+
+<P>	if(  Rnr[57] &lt;= 8.04945460094000e-001 ) {
+
+<P>		PredictProb[0] += 1.63597132688574e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[57] &gt; 8.04945460094000e-001 ) {
+
+<P>		PredictProb[0] += 2.34400337146247e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[27] &lt;= 9.85413596357167e-001 ) {
+
+<P>		PredictProb[0] += 3.96185848965107e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[27] &gt; 9.85413596357167e-001 ) {
+
+<P>		PredictProb[0] += 1.72510268958852e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[45] &lt;= 9.01511143299167e-001 ) {
+
+<P>		PredictProb[0] += 5.80569551949914e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[45] &gt; 9.01511143299167e-001 ) {
+
+<P>		PredictProb[0] += -1.06900261637197e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[40] &lt;= 8.90300261071167e-001 ) {
+
+<P>		PredictProb[0] += -1.02242491373569e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[40] &gt; 8.90300261071167e-001 ) {
+
+<P>		PredictProb[0] += 3.41167593171671e-002;
+
+<P>	} 
+
+<P>				if (MaxValue &lt; PredictProb[0]) {
+
+<P>				MaxValue = PredictProb[0];
+
+<P>				MaxVote = 1.00000000000000e+000;
+
+<P>				}
+
+<P>				PredictProb[1]=0;
+
+<P>	if(  Rnr[42] &lt;= 8.77558224104167e-001 ) {
+
+<P>		PredictProb[1] = 2.42857142857143e+000;
+
+<P>	} 
+
+<P>	else if(  Rnr[42] &gt; 8.77558224104167e-001 ) {
+
+<P>		PredictProb[1] = 2.41379310344828e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[37] &lt;= 1.05252505760500e+000 ) {
+
+<P>		PredictProb[1] += -8.77615271562285e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[37] &gt; 1.05252505760500e+000 ) {
+
+<P>		PredictProb[1] += 4.48129249541182e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[32] &lt;= 9.78027814341833e-001 ) {
+
+<P>		PredictProb[1] += 6.44648843151214e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[32] &gt; 9.78027814341833e-001 ) {
+
+<P>		PredictProb[1] += -1.35377813302697e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[58] &lt;= 9.77347860523167e-001 ) {
+
+<P>		PredictProb[1] += -5.48703585024576e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[58] &gt; 9.77347860523167e-001 ) {
+
+<P>		PredictProb[1] += 8.47562907152385e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[60] &lt;= 6.24852446456333e+000 ) {
+
+<P>		PredictProb[1] += -4.83504467397227e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[60] &gt; 6.24852446456333e+000 ) {
+
+<P>		PredictProb[1] += 1.31477527920338e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[53] &lt;= 6.00373241088667e+000 ) {
+
+<P>		PredictProb[1] += -6.21792688327287e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[53] &gt; 6.00373241088667e+000 ) {
+
+<P>		PredictProb[1] += 4.81201071643702e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[25] &lt;= 9.95704989455000e-001 ) {
+
+<P>		PredictProb[1] += -3.74508118789552e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[25] &gt; 9.95704989455000e-001 ) {
+
+<P>		PredictProb[1] += 1.92564063317956e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[25] &lt;= 9.95749656326500e-001 ) {
+
+<P>		PredictProb[1] += -8.21771506624960e-003;
+
+<P>	} 
+
+<P>	else if(  Rnr[25] &gt; 9.95749656326500e-001 ) {
+
+<P>		PredictProb[1] += 2.50596973669074e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[55] &lt;= 6.07105329979167e+000 ) {
+
+<P>		PredictProb[1] += -3.37912976071729e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[55] &gt; 6.07105329979167e+000 ) {
+
+<P>		PredictProb[1] += 9.82629789442765e-002;
+
+<P>	} 
+
+<P>				if (MaxValue &lt; PredictProb[1]) {
+
+<P>				MaxValue = PredictProb[1];
+
+<P>				MaxVote = 2.00000000000000e+000;
+
+<P>				}
+
+<P>				PredictProb[2]=0;
+
+<P>	if(  Rnr[41] &lt;= 8.37490264856000e-001 ) {
+
+<P>		PredictProb[2] = 2.00000000000000e+000;
+
+<P>	} 
+
+<P>	else if(  Rnr[41] &gt; 8.37490264856000e-001 ) {
+
+<P>		PredictProb[2] = -7.09090909090909e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[37] &lt;= 1.05172986973667e+000 ) {
+
+<P>		PredictProb[2] += 8.86480055440343e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[37] &gt; 1.05172986973667e+000 ) {
+
+<P>		PredictProb[2] += -8.78163435543768e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[34] &lt;= 9.18505958287000e-001 ) {
+
+<P>		PredictProb[2] += -2.76487938599487e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[34] &gt; 9.18505958287000e-001 ) {
+
+<P>		PredictProb[2] += -1.08585515978164e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[52] &lt;= 4.89009019214833e+000 ) {
+
+<P>		PredictProb[2] += -3.12934354558926e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[52] &gt; 4.89009019214833e+000 ) {
+
+<P>		PredictProb[2] += 3.17273449717605e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[51] &lt;= 4.68155754715167e+000 ) {
+
+<P>		PredictProb[2] += 4.43037743176887e-003;
+
+<P>	} 
+
+<P>	else if(  Rnr[51] &gt; 4.68155754715167e+000 ) {
+
+<P>		PredictProb[2] += 3.44922301991399e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[33] &lt;= 9.67837157486167e-001 ) {
+
+<P>		PredictProb[2] += -1.13769107028259e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[33] &gt; 9.67837157486167e-001 ) {
+
+<P>		PredictProb[2] += 3.94397767175548e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[42] &lt;= 9.60572275103667e-001 ) {
+
+<P>		PredictProb[2] += 2.89069978802593e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[42] &gt; 9.60572275103667e-001 ) {
+
+<P>		PredictProb[2] += -1.01907079179922e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[34] &lt;= 9.80616925713333e-001 ) {
+
+<P>		PredictProb[2] += -3.16295467849376e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[34] &gt; 9.80616925713333e-001 ) {
+
+<P>		PredictProb[2] += 2.78642728960641e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[41] &lt;= 8.31864445208167e-001 ) {
+
+<P>		PredictProb[2] += -1.51208004158360e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[41] &gt; 8.31864445208167e-001 ) {
+
+<P>		PredictProb[2] += -1.65412493503441e-002;
+
+<P>	} 
+
+<P>				if (MaxValue &lt; PredictProb[2]) {
+
+<P>				MaxValue = PredictProb[2];
+
+<P>				MaxVote = 3.00000000000000e+000;
+
+<P>				}
+
+<P>				PredictProb[3]=0;
+
+<P>	if(  Rnr[38] &lt;= 9.86457533328167e-001 ) {
+
+<P>		PredictProb[3] = -6.22641509433962e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[38] &gt; 9.86457533328167e-001 ) {
+
+<P>		PredictProb[3] = 3.00000000000000e+000;
+
+<P>	} 
+
+<P>	if(  Rnr[52] &lt;= 3.93616228490500e+000 ) {
+
+<P>		PredictProb[3] += 2.61193976151305e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[52] &gt; 3.93616228490500e+000 ) {
+
+<P>		PredictProb[3] += -7.82058945824927e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[49] &lt;= 7.86413226934167e-001 ) {
+
+<P>		PredictProb[3] += 2.84078183738048e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[49] &gt; 7.86413226934167e-001 ) {
+
+<P>		PredictProb[3] += -8.94716447460423e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[52] &lt;= 3.98289678796833e+000 ) {
+
+<P>		PredictProb[3] += 1.42900194166667e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[52] &gt; 3.98289678796833e+000 ) {
+
+<P>		PredictProb[3] += -8.14254876642834e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[31] &lt;= 9.94394316728667e-001 ) {
+
+<P>		PredictProb[3] += -3.04324815901098e-002;
+
+<P>	} 
+
+<P>	else if(  Rnr[31] &gt; 9.94394316728667e-001 ) {
+
+<P>		PredictProb[3] += -2.95927503524201e-001;
+
+<P>	} 
+
+<P>	if(  Rnr[24] &lt;= 9.46043156626667e-001 ) {
+
+<P>		PredictProb[3] += 4.27925545049607e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[24] &gt; 9.46043156626667e-001 ) {
+
+<P>		PredictProb[3] += -7.03340856340473e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[31] &lt;= 8.98779099939167e-001 ) {
+
+<P>		PredictProb[3] += 6.41081173063543e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[31] &gt; 8.98779099939167e-001 ) {
+
+<P>		PredictProb[3] += -6.12731260506660e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[47] &lt;= 8.32700730099000e-001 ) {
+
+<P>		PredictProb[3] += 2.06103251236910e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[47] &gt; 8.32700730099000e-001 ) {
+
+<P>		PredictProb[3] += -7.48647891692414e-002;
+
+<P>	} 
+
+<P>	if(  Rnr[49] &lt;= 6.92597248377167e-001 ) {
+
+<P>		PredictProb[3] += 6.21941902759242e-001;
+
+<P>	} 
+
+<P>	else if(  Rnr[49] &gt; 6.92597248377167e-001 ) {
+
+<P>		PredictProb[3] += -6.65506438256204e-002;
+
+<P>	} 
+
+<P>				if (MaxValue &lt; PredictProb[3]) {
+
+<P>				MaxValue = PredictProb[3];
+
+<P>				MaxVote = 4.00000000000000e+000;
+
+<P>				}
+
+<P>
+
+<P>	for(i=0; i&lt;4; i++){
+
+<P>		PredictProb[i]=exp(PredictProb[i]);
+
+<P>		den+=PredictProb[i];
+
+<P>	}
+
+<P>	for(i=0; i&lt;4 ;i++)
+
+<P>		PredictProb[i]/=den;
+
+<P>
+
+<P>				ret=MaxVote;
+
+<P>	return ret;
+
+<P>}
+
+<P>
+
+<P>
+
+<P>
+
+<P>
+
+<P>
+</BODY>
+</HTML>
